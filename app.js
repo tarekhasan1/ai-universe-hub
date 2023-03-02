@@ -18,16 +18,16 @@ const displayData = (ai) =>{
                       <div class="card-body">
                       <h3>Features</h3>
                       <ol>
-                      <li></li>
-                      <li></li>
-                      <li></li>
+                      <li>${element.features[0]}</li>
+                      <li>${element.features[1]}</li>
+                      <li>${element.features[2]}</li>
                       </ol>
                     </div>
                     <div class="row d-flex mx-2">
                     <hr>
                     <div class="col">
                     <h5 class="card-title my-3">${element.name}</h5>
-                    <p>Release: </p>
+                    <p><i class="fa-regular fa-calendar-days"></i> ${element.published_in}</p>
                     </div>
                     <div class="col text-end my-auto">
                     <button class="btn btn-danger">details</button>
