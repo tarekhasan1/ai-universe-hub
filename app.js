@@ -2,6 +2,8 @@ const loadData = async() => {
     const url = `https://openapi.programming-hero.com/api/ai/tools`;
     const res = await fetch(url);
     const data = await res.json();
+    // display spinner
+    toggleSpinner(true);
     displayData(data.data.tools);
 }
 
@@ -37,6 +39,19 @@ const displayData = (ai) =>{
                 </div>
         `
         aiContainer.appendChild(newDiv);
+    }
+    toggleSpinner(false);
+}
+
+const toggleSpinner = isLoading => {
+    const spinner = document.getElementById('loader');
+    if(isLoading){
+        spinner.classList.remove('d-none');
+        console.log('spinning');
+    }
+    else{
+        spinner.classList.add('d-none');
+        console.log('spinner off');
     }
 }
 
