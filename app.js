@@ -74,12 +74,13 @@ const loadAiDetails = async id =>{
     const res = await fetch(url);
     const data = await res.json();
     displayDescription(data.data);
+    features(data.data.features);
     gettingAccuracy(data.data);
     integrations(data.data.integrations);
 }
 
 const displayDescription = details =>{
-    console.log(details);
+    // console.log(details);
     const modalBody = document.getElementById('ai-universe-modal');
     modalBody.innerHTML = '';
     const newModalDiv = document.createElement('div');
@@ -102,9 +103,6 @@ const displayDescription = details =>{
             <div class="col">
                 <h4>Features</h4>
                 <ul id="ai-universe-features">
-                    <li>${details.features[1].feature_name}</li>
-                    <li>${details.features[2].feature_name}</li>
-                    <li>${details.features[3].feature_name}</li>
                 </ul>
             </div>
             <div class="col">
@@ -130,10 +128,19 @@ const displayDescription = details =>{
     modalBody.appendChild(newModalDiv);
 }
 
+function features(list){
+    const featuresContainer = document.getElementById('ai-universe-features');
+    for(const key in list){
+        const value = list[key];
+        const newLi = document.createElement('li');
+        newLi.innerText = value.feature_name;
+        featuresContainer.appendChild(newLi);
+    }
+}
+
 
 function integrations(params){
     const integrationsContainer = document.getElementById('ai-universe-integrations');
-    console.log(params);
     if(params){
         for(const param of params){
             const newLi = document.createElement('li');
