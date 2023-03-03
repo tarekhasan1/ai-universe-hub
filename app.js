@@ -72,11 +72,57 @@ const loadAiDetails = async id =>{
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    displayDescription(data.data.description);
+    displayDescription(data.data);
 }
 
 const displayDescription = details =>{
     console.log(details);
+    const modalBody = document.getElementById('ai-universe-modal');
+    modalBody.innerHTML = '';
+    const newModalDiv = document.createElement('div');
+    newModalDiv.classList.add('row', 'mx-3', 'p-5');
+    newModalDiv.innerHTML =`
+    <div class="col rounded-3 bg-danger-subtle border border-danger me-2 me-md-3">
+                    <h4 class="my-3">${details.description}</h4>
+          <div class="row mx-1 mb-3">
+            <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
+                <p><span>$10</span>/<br>month <br> Basic</p>
+            </div>
+            <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
+                <p><span>$15</span>/<br>month <br>Pro</p>
+            </div>
+            <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
+                <p><span>$15</span><br>Enterprise</p>
+            </div>
+          </div>
+          <div class="row  mx-3 mx-auto mb-3">
+            <div class="col">
+                <h4>Features</h4>
+                <ul>
+                    <li>${details.features[1].feature_name}</li>
+                    <li>${details.features[2].feature_name}</li>
+                    <li>${details.features[3].feature_name}</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h4>Integration</h4>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                </ul>
+            </div>
+          </div>
+                </div>
+                <div class="col rounded-3 border border-dark-subtle">
+                    <div>
+                        <img src="..." alt="">
+                    </div>
+                    <h4>hello</h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, inventore!</p>
+                </div>
+    `;
+    modalBody.appendChild(newModalDiv);
 }
 
 loadData(6);
