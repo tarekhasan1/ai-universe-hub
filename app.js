@@ -88,13 +88,13 @@ const displayDescription = details =>{
                     <h4 class="my-3">${details.description}</h4>
           <div class="row mx-1 mb-3">
             <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
-                <p><span>$10</span>/<br>month <br> Basic</p>
+                <p class="text-center text-success fw-bolder">${details.pricing ? details.pricing[0].price: 'Free of cost/'}<br>${details.pricing ? details.pricing[0].plan: 'Basic'}</p>
             </div>
             <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
-                <p><span>$15</span>/<br>month <br>Pro</p>
+                <p class="text-center text-danger fw-bolder">${details.pricing ? details.pricing[1].price: 'Free of cost/'}<br>${details.pricing ? details.pricing[1].plan: 'Pro'}</p>
             </div>
             <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
-                <p><span>$15</span><br>Enterprise</p>
+                <p class="text-center text-danger-emphasis fw-bolder">${details.pricing ? details.pricing[2].price: 'Free of cost/'}<br>${details.pricing ? details.pricing[2].plan: 'Enterprise'}</p>
             </div>
           </div>
           <div class="row  mx-3 mx-auto">
