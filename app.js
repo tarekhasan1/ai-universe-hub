@@ -4,6 +4,7 @@ const loadData = async(dataLimit) => {
     const data = await res.json();
     // display spinner
     toggleSpinner(true);
+    // console.log(data.data.tools);
     displayData(data.data.tools, dataLimit);
 }
 
@@ -72,6 +73,7 @@ const loadAiDetails = async id =>{
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     const res = await fetch(url);
     const data = await res.json();
+    console.log(data);
     displayDescription(data.data);
 }
 
@@ -106,10 +108,7 @@ const displayDescription = details =>{
             </div>
             <div class="col">
                 <h4>Integration</h4>
-                <ul>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
+                <ul id="ai-universe-integrations" onload="integrations(${details.integrations})">
                 </ul>
             </div>
           </div>
@@ -118,11 +117,34 @@ const displayDescription = details =>{
                     <div class="mt-3 m-md-3">
                         <img class="img-fluid rounded-3" src="${details.image_link[0]}" alt="">
                     </div>
-                    <h4>hello</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, inventore!</p>
+                    <div class="p-3 mx-auto">
+                    <h4 class="text-center">${details.input_output_examples ? details.input_output_examples[0].input: 'Can You Give Any Example?'}</h4>
+                    <p class="text-center mt-3">${details.input_output_examples ? details.input_output_examples[0].output : 'No, Not Yet. Take A Break!'}</p>
+                    </div>
                 </div>
     `;
     modalBody.appendChild(newModalDiv);
 }
+
+
+const integrations = (param) =>{
+    const integrationsContainer = document.getElementById('ai-universe-integrations');
+    console.log(integrationsContainer);
+    if(param){
+        const elements = param;
+        for(const element of elements){
+            let newLi = document.createElement('li');
+            newLi.innerText = element;
+            // console.log(element);
+            // console.log(newLi);
+            // integrationsContainer.appendChild(newLi);
+        }
+        // liContainer.appendChild(newLi);
+    }
+    else{
+        integrationsContainer.innerText = 'Not Found';
+    }
+}
+
 
 loadData(6);
