@@ -40,7 +40,7 @@ const displayData = (ai, dataLimit) =>{
                     <p><i class="fa-regular fa-calendar-days"></i> ${element.published_in}</p>
                     </div>
                     <div class="col text-end my-auto">
-                    <button onclick="loadAiDetails('${element.id}')" class="btn btn-danger">details</button>
+                    <button onclick="loadAiDetails('${element.id}')" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#aiUniverse"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     </div>
                   </div>
@@ -72,7 +72,11 @@ const loadAiDetails = async id =>{
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
+    displayDescription(data.data.description);
+}
+
+const displayDescription = details =>{
+    console.log(details);
 }
 
 loadData(6);
