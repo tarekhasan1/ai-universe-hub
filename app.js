@@ -80,9 +80,9 @@ const displayDescription = details =>{
     const modalBody = document.getElementById('ai-universe-modal');
     modalBody.innerHTML = '';
     const newModalDiv = document.createElement('div');
-    newModalDiv.classList.add('row', 'mx-3', 'p-5');
+    newModalDiv.classList.add('row', 'mx-3', 'p-2', 'p-md-5');
     newModalDiv.innerHTML =`
-    <div class="col rounded-3 bg-danger-subtle border border-danger me-2 me-md-3">
+    <div class="col rounded-3 bg-danger-subtle border border-danger mb-3 me-2 me-md-3">
                     <h4 class="my-3">${details.description}</h4>
           <div class="row mx-1 mb-3">
             <div class="col border me-3 rounded-3 bg-white d-flex justify-content-center align-items-center p-2">
@@ -95,7 +95,7 @@ const displayDescription = details =>{
                 <p><span>$15</span><br>Enterprise</p>
             </div>
           </div>
-          <div class="row  mx-3 mx-auto mb-3">
+          <div class="row  mx-3 mx-auto">
             <div class="col">
                 <h4>Features</h4>
                 <ul>
@@ -114,9 +114,9 @@ const displayDescription = details =>{
             </div>
           </div>
                 </div>
-                <div class="col rounded-3 border border-dark-subtle">
-                    <div>
-                        <img src="..." alt="">
+                <div class="col rounded-3 border border-dark-subtle order-first order-sm-last mb-3 me-2 me-md-3">
+                    <div class="mt-3 m-md-3">
+                        <img class="img-fluid rounded-3" src="${details.image_link[0]}" alt="">
                     </div>
                     <h4>hello</h4>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, inventore!</p>
