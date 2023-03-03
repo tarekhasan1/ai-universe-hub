@@ -73,9 +73,9 @@ const loadAiDetails = async id =>{
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
     displayDescription(data.data);
     gettingAccuracy(data.data);
+    integrations(data.data.integrations);
 }
 
 const displayDescription = details =>{
@@ -101,7 +101,7 @@ const displayDescription = details =>{
           <div class="row  mx-3 mx-auto">
             <div class="col">
                 <h4>Features</h4>
-                <ul>
+                <ul id="ai-universe-features">
                     <li>${details.features[1].feature_name}</li>
                     <li>${details.features[2].feature_name}</li>
                     <li>${details.features[3].feature_name}</li>
@@ -131,19 +131,15 @@ const displayDescription = details =>{
 }
 
 
-function integrations(param){
+function integrations(params){
     const integrationsContainer = document.getElementById('ai-universe-integrations');
-    console.log(integrationsContainer);
-    if(param){
-        const elements = param;
-        for(const element of elements){
-            let newLi = document.createElement('li');
-            newLi.innerText = element;
-            // console.log(element);
-            // console.log(newLi);
-            // integrationsContainer.appendChild(newLi);
+    console.log(params);
+    if(params){
+        for(const param of params){
+            const newLi = document.createElement('li');
+            newLi.innerText = param;
+            integrationsContainer.appendChild(newLi);
         }
-        // liContainer.appendChild(newLi);
     }
     else{
         integrationsContainer.innerText = 'Not Found';
