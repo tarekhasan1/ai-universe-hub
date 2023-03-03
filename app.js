@@ -41,7 +41,7 @@ const displayData = (ai, dataLimit) =>{
                     <p><i class="fa-regular fa-calendar-days"></i> ${element.published_in}</p>
                     </div>
                     <div class="col text-end my-auto">
-                    <button onclick="loadAiDetails('${element.id}')" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#aiUniverse"><i class="fa-solid fa-arrow-right"></i></button>
+                    <button onclick="loadAiDetails('${element.id}')" class="btn btn-danger rounded-5" data-bs-toggle="modal" data-bs-target="#aiUniverse"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     </div>
                   </div>
@@ -75,6 +75,7 @@ const loadAiDetails = async id =>{
     const data = await res.json();
     console.log(data);
     displayDescription(data.data);
+    gettingAccuracy(data.data);
 }
 
 const displayDescription = details =>{
@@ -108,14 +109,17 @@ const displayDescription = details =>{
             </div>
             <div class="col">
                 <h4>Integration</h4>
-                <ul id="ai-universe-integrations" onload="integrations(${details.integrations})">
+                <ul id="ai-universe-integrations">
                 </ul>
             </div>
           </div>
                 </div>
-                <div class="col rounded-3 border border-dark-subtle order-first order-sm-last mb-3 me-2 me-md-3">
-                    <div class="mt-3 m-md-3">
+                <div class="col rounded-3 border border-dark-subtle order-xs-first order-sm-last mb-3 me-2 me-md-3">
+                    <div class="mt-3 m-md-3 position-relative">
                         <img class="img-fluid rounded-3" src="${details.image_link[0]}" alt="">
+                        <div id="ai-universe-accuracy" class="position-absolute top-0 end-0 bg-danger my-2 me-2 rounded-1">
+                        
+                        </div>
                     </div>
                     <div class="p-3 mx-auto">
                     <h4 class="text-center">${details.input_output_examples ? details.input_output_examples[0].input: 'Can You Give Any Example?'}</h4>
@@ -127,7 +131,7 @@ const displayDescription = details =>{
 }
 
 
-const integrations = (param) =>{
+function integrations(param){
     const integrationsContainer = document.getElementById('ai-universe-integrations');
     console.log(integrationsContainer);
     if(param){
@@ -146,5 +150,18 @@ const integrations = (param) =>{
     }
 }
 
+function gettingAccuracy(info){
+    const accuracyContainer = document.getElementById('ai-universe-accuracy');
+    if(info.accuracy.score){
+        accuracyContainer.innerHTML = `
+    <span class="mx-2 text-white">
+    ${info.accuracy.score*100}% Accuracy
+    </span>
+    `
+    }
+    else{
+        accuracyContainer.classList.add('d-none');
+    }
+}
 
 loadData(6);
