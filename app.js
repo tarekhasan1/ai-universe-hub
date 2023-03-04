@@ -13,11 +13,22 @@ function sortByDate(arr){
     const newArray = arr.map(obj =>{
         return{...obj, published_in: new Date(obj.published_in)};
     });
+    console.log('new array:', newArray);
+
+    const tempArray = [...newArray];
     
-    const sortedAsc = newArray.sort((objA, objB) =>
+    const sortedAsc = tempArray.sort((objA, objB) =>
     Number(objA.published_in)- Number(objB.published_in));
-    
+
     console.log('sorted:', sortedAsc);
+
+    const formattedSortedAsc = sortedAsc.map(obj =>{
+        var options = {day: 'numeric', month: 'numeric', year: 'numeric'};
+        return{...obj, published_in: obj.published_in.toLocaleString('en-US', options)};
+    });
+
+    console.log('formatted:', formattedSortedAsc);
+
     const sortButton = document.getElementById('sort-card-btn');
     const seeMoreBtn = document.getElementById('see-more-btn');
     let sortbuttonClicked = false;
@@ -34,14 +45,14 @@ function sortByDate(arr){
         sortbuttonClicked = true;
         if(sortbuttonClicked === true && seeMoreBtnClicked == false){
             toggleSpinner(true);
-            displaySorted(sortedAsc, 6);
+            displaySorted(formattedSortedAsc, 6);
         }
         // sort by date and see more btn event
         seeMoreBtn.addEventListener('click', function(){
             seeMoreBtnClicked = true;
             if(sortbuttonClicked === true && seeMoreBtnClicked === true){
                 toggleSpinner(true);
-                displaySorted(sortedAsc);
+                displaySorted(formattedSortedAsc);
             }
         })
     });
