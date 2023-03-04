@@ -1,10 +1,9 @@
 const loadData = async(dataLimit) => {
+    // spinner start
+    toggleSpinner(true);
     const url = `https://openapi.programming-hero.com/api/ai/tools`;
     const res = await fetch(url);
     const data = await res.json();
-    // display spinner
-    toggleSpinner(true);
-    console.log(data.data.tools);
     displayData(data.data.tools, dataLimit);
     sortByDate(data.data.tools);
 }
@@ -13,21 +12,15 @@ function sortByDate(arr){
     const newArray = arr.map(obj =>{
         return{...obj, published_in: new Date(obj.published_in)};
     });
-    console.log('new array:', newArray);
-
     const tempArray = [...newArray];
-    
+
     const sortedAsc = tempArray.sort((objA, objB) =>
     Number(objA.published_in)- Number(objB.published_in));
 
-    console.log('sorted:', sortedAsc);
-
     const formattedSortedAsc = sortedAsc.map(obj =>{
-        var options = {day: 'numeric', month: 'numeric', year: 'numeric'};
+        const options = {day: 'numeric', month: 'numeric', year: 'numeric'};
         return{...obj, published_in: obj.published_in.toLocaleString('en-US', options)};
     });
-
-    console.log('formatted:', formattedSortedAsc);
 
     const sortButton = document.getElementById('sort-card-btn');
     const seeMoreBtn = document.getElementById('see-more-btn');
@@ -42,6 +35,7 @@ function sortByDate(arr){
 
     // sort by date btn event
     sortButton.addEventListener('click', function(){
+        sortButton.style.backgroundColor = 'gray';
         sortbuttonClicked = true;
         if(sortbuttonClicked === true && seeMoreBtnClicked == false){
             toggleSpinner(true);
@@ -56,6 +50,18 @@ function sortByDate(arr){
             }
         })
     });
+}
+
+
+// add list item on cards feature
+function addList(items){
+    let list = "";
+    if(Array.isArray(items) && items.length > 0){
+        items.forEach((text)=>{
+            list += `<li>${text}</li>`;
+        })
+    }
+    return list;
 }
 
 // function for displaying data on card
@@ -79,10 +85,8 @@ const displayData = (ai, dataLimit) =>{
                       </div>
                       <div class="card-body">
                       <h3>Features</h3>
-                      <ol>
-                      <li>${element.features[0]}</li>
-                      <li>${element.features[1]}</li>
-                      <li>${element.features[2]}</li>
+                      <ol id="ai-card-features-${element.id}">
+                        ${addList(element.features)}
                       </ol>
                     </div>
                     <div class="row d-flex mx-2">
@@ -103,6 +107,7 @@ const displayData = (ai, dataLimit) =>{
     toggleSpinner(false);
 }
 
+// toggleSpinner
 const toggleSpinner = isLoading => {
     const spinner = document.getElementById('loader');
     if(isLoading){
@@ -139,7 +144,6 @@ const loadAiDetails = async id =>{
 
 // function for displaying modal description
 const displayDescription = details =>{
-    // console.log(details);
     const modalBody = document.getElementById('ai-universe-modal');
     modalBody.innerHTML = '';
     const newModalDiv = document.createElement('div');
@@ -159,7 +163,7 @@ const displayDescription = details =>{
             </div>
           </div>
           <div class="row  mx-3 mx-auto">
-            <div class="col">
+            <div class="col ">
                 <h4>Features</h4>
                 <ul id="ai-universe-features">
                 </ul>
