@@ -4,10 +4,50 @@ const loadData = async(dataLimit) => {
     const data = await res.json();
     // display spinner
     toggleSpinner(true);
-    // console.log(data.data.tools);
+    console.log(data.data.tools);
     displayData(data.data.tools, dataLimit);
+    sortByDate(data.data.tools);
 }
 
+function sortByDate(arr){
+    const newArray = arr.map(obj =>{
+        return{...obj, published_in: new Date(obj.published_in)};
+    });
+    
+    const sortedAsc = newArray.sort((objA, objB) =>
+    Number(objA.published_in)- Number(objB.published_in));
+    
+    console.log('sorted:', sortedAsc);
+    const sortButton = document.getElementById('sort-card-btn');
+    const seeMoreBtn = document.getElementById('see-more-btn');
+    let sortbuttonClicked = false;
+    let seeMoreBtnClicked = false;
+
+    // see more btn event
+    seeMoreBtn.addEventListener('click', function(){
+        toggleSpinner(true);
+        displayData(arr);
+    })
+
+    // sort by date btn event
+    sortButton.addEventListener('click', function(){
+        sortbuttonClicked = true;
+        if(sortbuttonClicked === true && seeMoreBtnClicked == false){
+            toggleSpinner(true);
+            displaySorted(sortedAsc, 6);
+        }
+        // sort by date and see more btn event
+        seeMoreBtn.addEventListener('click', function(){
+            seeMoreBtnClicked = true;
+            if(sortbuttonClicked === true && seeMoreBtnClicked === true){
+                toggleSpinner(true);
+                displaySorted(sortedAsc);
+            }
+        })
+    });
+}
+
+// function for displaying data on card
 const displayData = (ai, dataLimit) =>{
     const aiContainer = document.getElementById('ai-container');
     aiContainer.innerHTML = '';
@@ -19,7 +59,7 @@ const displayData = (ai, dataLimit) =>{
         document.getElementById('see-more-btn').classList.add('d-none');
     }
     for(const element of ai){
-        console.log(element);
+        // console.log(element);
         const newDiv = document.createElement('div');
         newDiv.innerHTML = `
         <div class="col">
@@ -64,11 +104,17 @@ const toggleSpinner = isLoading => {
     }
 }
 
-const seeMoreBtn = document.getElementById('see-more-btn').addEventListener('click', function(id){
-    loadData();
-})
+// function used for display sorted or unsorted array
+function displaySorted(arr, dataLimit){
+        if(dataLimit){
+            displayData(arr, dataLimit);
+        }
+            else{
+                displayData(arr);
+            }
+}
 
-
+// fetching data by id
 const loadAiDetails = async id =>{
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     const res = await fetch(url);
@@ -79,6 +125,8 @@ const loadAiDetails = async id =>{
     integrations(data.data.integrations);
 }
 
+
+// function for displaying modal description
 const displayDescription = details =>{
     // console.log(details);
     const modalBody = document.getElementById('ai-universe-modal');
@@ -128,6 +176,7 @@ const displayDescription = details =>{
     modalBody.appendChild(newModalDiv);
 }
 
+// for making unordered features list on modal body
 function features(list){
     const featuresContainer = document.getElementById('ai-universe-features');
     for(const key in list){
@@ -139,6 +188,7 @@ function features(list){
 }
 
 
+// for making unordered integrations list on modal body
 function integrations(params){
     const integrationsContainer = document.getElementById('ai-universe-integrations');
     if(params){
@@ -153,6 +203,8 @@ function integrations(params){
     }
 }
 
+
+// showing accuracy in the top of the modal body image
 function gettingAccuracy(info){
     const accuracyContainer = document.getElementById('ai-universe-accuracy');
     if(info.accuracy.score){
@@ -167,4 +219,5 @@ function gettingAccuracy(info){
     }
 }
 
+// getting default value
 loadData(6);
